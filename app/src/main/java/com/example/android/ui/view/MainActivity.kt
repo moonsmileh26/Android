@@ -10,7 +10,10 @@ import androidx.core.view.isVisible
 import com.example.android.R
 import com.example.android.databinding.ActivityMainBinding
 import com.example.android.viewmodel.QuoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

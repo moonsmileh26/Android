@@ -3,13 +3,15 @@ package com.example.android.data
 import com.example.android.data.model.QuoteModel
 import com.example.android.data.model.QuoteProvider
 import com.example.android.data.network.QuoteService
+import javax.inject.Inject
 
-class QuotesRepository {
-    private val apiService = QuoteService()
-
+class QuotesRepository @Inject constructor(
+    private val apiService: QuoteService,
+    private val quoteProvider: QuoteProvider
+) {
     suspend fun getAllQuotes(): List<QuoteModel> {
         val response = apiService.getQuotes()
-        QuoteProvider.quotes = response
+        quoteProvider.quotes = response
         return response
     }
 }
