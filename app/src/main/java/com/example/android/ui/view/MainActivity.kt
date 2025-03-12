@@ -1,4 +1,4 @@
-package com.example.android.view
+package com.example.android.ui.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
 import com.example.android.R
 import com.example.android.databinding.ActivityMainBinding
 import com.example.android.viewmodel.QuoteViewModel
@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        quoteViewModel.onCreate()
+
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -33,11 +35,12 @@ class MainActivity : AppCompatActivity() {
             binding.textViewAuthor.text = quote.author
         }
 
+        quoteViewModel.isLoading.observe(this) {
+            binding.progressBar.isVisible = it
+        }
+
         binding.main.setOnClickListener {
             quoteViewModel.getRandomQuote()
         }
-
-        quoteViewModel.getRandomQuote()
-
     }
 }
