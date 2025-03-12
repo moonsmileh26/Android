@@ -1,6 +1,5 @@
 package com.example.android.data.network
 
-import com.example.android.core.RetrofitHelper
 import com.example.android.data.model.QuoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

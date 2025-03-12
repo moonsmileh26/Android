@@ -20,6 +20,11 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField("String", "SERVER_URL", "\"${project.property("SERVER_URL")}\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -28,6 +33,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,6 +43,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -51,6 +58,10 @@ dependencies {
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

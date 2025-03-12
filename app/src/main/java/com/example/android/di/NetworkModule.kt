@@ -1,5 +1,6 @@
 package com.example.android.di
 
+import com.example.android.BuildConfig
 import com.example.android.data.network.ApiClient
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://gist.githubusercontent.com/moonsmileh26/618a6bc8f53831bcbd22d76013158809/raw/2e8ac6dfa6930bda734a03cb441451c3d834d88e/")
+            .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(gsonConverterFactory)
             .build()
 
