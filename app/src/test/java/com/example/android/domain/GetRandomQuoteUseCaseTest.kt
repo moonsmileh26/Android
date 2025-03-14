@@ -1,7 +1,8 @@
 package com.example.android.domain
 
-import com.example.android.data.QuotesRepository
-import com.example.android.domain.model.Quote
+import com.example.android.quotes.data.QuotesRepository
+import com.example.android.quotes.domain.GetRandomQuoteUseCase
+import com.example.android.quotes.domain.model.Quote
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK

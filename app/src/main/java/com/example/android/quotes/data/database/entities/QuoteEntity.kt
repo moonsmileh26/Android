@@ -1,9 +1,9 @@
-package com.example.android.data.database.entities
+package com.example.android.quotes.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.android.domain.model.Quote
+import com.example.android.quotes.domain.model.Quote
 
 @Entity(tableName = "quotes")
 data class QuoteEntity(

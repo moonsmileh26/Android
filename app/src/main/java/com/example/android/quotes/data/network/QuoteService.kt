@@ -1,6 +1,6 @@
-package com.example.android.data.network
+package com.example.android.quotes.data.network
 
-import com.example.android.data.model.QuoteModel
+import com.example.android.quotes.data.model.QuoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

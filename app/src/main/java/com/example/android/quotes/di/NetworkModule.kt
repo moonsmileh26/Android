@@ -1,7 +1,7 @@
-package com.example.android.di
+package com.example.android.quotes.di
 
 import com.example.android.BuildConfig
-import com.example.android.data.network.ApiClient
+import com.example.android.quotes.data.network.ApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +24,6 @@ object NetworkModule {
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(gsonConverterFactory)
             .build()
-
     }
 
     @Singleton
@@ -32,7 +31,4 @@ object NetworkModule {
     fun provideQuoteApiClient(retrofit: Retrofit): ApiClient {
         return retrofit.create(ApiClient::class.java)
     }
-
-
-
 }

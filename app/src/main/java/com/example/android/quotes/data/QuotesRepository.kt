@@ -1,10 +1,10 @@
-package com.example.android.data
+package com.example.android.quotes.data
 
-import com.example.android.data.database.dao.QuoteDao
-import com.example.android.data.database.entities.QuoteEntity
-import com.example.android.data.network.QuoteService
-import com.example.android.domain.model.Quote
-import com.example.android.domain.model.toDomain
+import com.example.android.quotes.data.database.dao.QuoteDao
+import com.example.android.quotes.data.database.entities.QuoteEntity
+import com.example.android.quotes.data.network.QuoteService
+import com.example.android.quotes.domain.model.Quote
+import com.example.android.quotes.domain.model.toDomain
 import javax.inject.Inject
 
 class QuotesRepository @Inject constructor(

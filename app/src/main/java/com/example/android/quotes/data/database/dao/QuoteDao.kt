@@ -1,10 +1,10 @@
-package com.example.android.data.database.dao
+package com.example.android.quotes.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.android.data.database.entities.QuoteEntity
+import com.example.android.quotes.data.database.entities.QuoteEntity
 
 @Dao
 interface QuoteDao {

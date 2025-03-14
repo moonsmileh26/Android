@@ -1,11 +1,11 @@
-package com.example.android.viewmodel
+package com.example.android.quotes.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.domain.GetQuotesUseCase
-import com.example.android.domain.GetRandomQuoteUseCase
-import com.example.android.domain.model.Quote
+import com.example.android.quotes.domain.GetQuotesUseCase
+import com.example.android.quotes.domain.GetRandomQuoteUseCase
+import com.example.android.quotes.domain.model.Quote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

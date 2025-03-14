@@ -1,6 +1,6 @@
-package com.example.android.data.network
+package com.example.android.quotes.data.network
 
-import com.example.android.data.model.QuoteModel
+import com.example.android.quotes.data.model.QuoteModel
 import retrofit2.Response
 import retrofit2.http.GET
 

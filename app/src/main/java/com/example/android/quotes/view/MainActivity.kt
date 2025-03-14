@@ -1,4 +1,4 @@
-package com.example.android.ui.view
+package com.example.android.quotes.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.android.R
 import com.example.android.databinding.ActivityMainBinding
-import com.example.android.viewmodel.QuoteViewModel
+import com.example.android.quotes.viewmodel.QuoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

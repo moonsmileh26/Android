@@ -1,9 +1,10 @@
 package com.example.android.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.android.domain.GetQuotesUseCase
-import com.example.android.domain.GetRandomQuoteUseCase
-import com.example.android.domain.model.Quote
+import com.example.android.quotes.domain.GetQuotesUseCase
+import com.example.android.quotes.domain.GetRandomQuoteUseCase
+import com.example.android.quotes.domain.model.Quote
+import com.example.android.quotes.viewmodel.QuoteViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK

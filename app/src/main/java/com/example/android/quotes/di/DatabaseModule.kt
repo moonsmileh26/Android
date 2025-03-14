@@ -1,9 +1,9 @@
-package com.example.android.di
+package com.example.android.quotes.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.android.data.database.QuoteDatabase
-import com.example.android.data.database.dao.QuoteDao
+import com.example.android.quotes.data.database.QuoteDatabase
+import com.example.android.quotes.data.database.dao.QuoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

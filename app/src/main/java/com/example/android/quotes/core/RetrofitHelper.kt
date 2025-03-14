@@ -1,4 +1,4 @@
-package com.example.android.core
+package com.example.android.quotes.core
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
