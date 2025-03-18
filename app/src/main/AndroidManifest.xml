@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Android"
         tools:targetApi="31">
         <activity
-            android:name=".quotes.view.MainActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

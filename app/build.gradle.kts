@@ -23,7 +23,8 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField("String", "SERVER_URL", "\"${project.property("SERVER_URL")}\"")
+            buildConfigField("String", "BASE_URL", "\"${project.property("BASE_URL")}\"")
+
         }
 
         release {
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.runtime.livedata)
     kapt(libs.hilt.compiler)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
