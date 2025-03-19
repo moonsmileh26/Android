@@ -1,5 +1,6 @@
 package com.example.android.login.ui
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,10 +34,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android.R
 import com.example.android.login.viewmodel.LoginViewModel
+import com.example.android.quotes.view.MainActivity
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel) {
+
+    val context = LocalContext.current
+    val state = viewModel.state
+
+    if (state.success) {
+        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Intent(context, MainActivity::class.java).also {
+            context.startActivity(it)
+        }
+    } else {
+        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+    }
+
     Box(
         Modifier
             .fillMaxSize()
@@ -48,38 +63,45 @@ fun LoginScreen(viewModel: LoginViewModel) {
 
 @Composable
 fun Login(modifier: Modifier, viewModel: LoginViewModel) {
-    val email: String by viewModel.email.observeAsState("")
-    val password: String by viewModel.password.observeAsState("")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(false)
-    val isLoading: Boolean by viewModel.isLoading.observeAsState(false)
-    val success: Boolean by viewModel.success.observeAsState(false)
 
-    if (success) {
-        Toast.makeText(LocalContext.current, "Login success", Toast.LENGTH_SHORT).show()
-    } else {
-        Toast.makeText(LocalContext.current, "Login failed", Toast.LENGTH_SHORT).show()
-    }
-    val coroutineScope = rememberCoroutineScope()
-    if (isLoading) {
+    val state = viewModel.state
+
+    if (state.isLoading) {
         Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
     } else {
-        Column(modifier = modifier) {
-            HeaderImage(Modifier.align(Alignment.CenterHorizontally))
-            Spacer(modifier = Modifier.size(16.dp))
-            EmailField(email, onValueChange = { viewModel.onLoginChanged(it, password) })
-            Spacer(modifier = Modifier.size(8.dp))
-            PasswordField(password, onValueChange = { viewModel.onLoginChanged(email, it) })
-            Spacer(modifier = Modifier.size(8.dp))
-            ForgotPassword(Modifier.align(Alignment.End))
-            Spacer(modifier = Modifier.size(8.dp))
-            LoginButton(loginEnable, {
-                coroutineScope.launch {
-                    viewModel.onDoLogin()
-                }
-            })
-        }
+        LoginView(modifier, viewModel)
+
+    }
+
+
+
+}
+
+@Composable
+fun LoginView(modifier: Modifier, viewModel: LoginViewModel) {
+    val email: String by viewModel.email.observeAsState("")
+    val password: String by viewModel.password.observeAsState("")
+    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(false)
+
+    Column(modifier = modifier) {
+        HeaderImage(Modifier.align(Alignment.CenterHorizontally))
+        Spacer(modifier = Modifier.size(16.dp))
+        EmailField(email, onValueChange = { viewModel.onLoginChanged(it, password) })
+        Spacer(modifier = Modifier.size(8.dp))
+        PasswordField(password, onValueChange = { viewModel.onLoginChanged(email, it) })
+        Spacer(modifier = Modifier.size(8.dp))
+        ForgotPassword(Modifier.align(Alignment.End))
+        Spacer(modifier = Modifier.size(8.dp))
+
+        val coroutineScope = rememberCoroutineScope()
+
+        LoginButton(loginEnable, {
+            coroutineScope.launch {
+                viewModel.onDoLogin()
+            }
+        })
     }
 }
 
