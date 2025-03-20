@@ -1,9 +1,6 @@
 package com.example.android.login.viewmodel
 
 import android.util.Patterns
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.login.domain.LoginUseCase
 import com.example.android.login.ui.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,8 +26,8 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
     private val _loginEnable = MutableLiveData<Boolean>()
     val loginEnable: LiveData<Boolean> = _loginEnable
 
-    var state by mutableStateOf(LoginState())
-        private set
+    private val _uiState = MutableStateFlow(LoginState())
+    val uiState: StateFlow<LoginState> = _uiState.asStateFlow()
 
 
     fun onLoginChanged(email: String, password: String) {
@@ -43,12 +43,12 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
 
     fun onDoLogin() {
         viewModelScope.launch {
-            state = state.copy(isLoading = true)
+            _uiState.value = _uiState.value.copy(isLoading = true)
             val result = loginUseCase()
-            val success = result?.user?.email?.equals(email.value)
+            val isSuccess = result?.user?.email?.equals(email.value)
 
-            state = state.copy(
-                success = success ?: false, isLoading = false
+            _uiState.value = _uiState.value.copy(
+                isLoginSuccess = isSuccess ?: false, isLoading = false
             )
         }
     }

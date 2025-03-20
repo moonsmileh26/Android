@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,51 +37,35 @@ import com.example.android.R
 import com.example.android.login.viewmodel.LoginViewModel
 import com.example.android.quotes.view.MainActivity
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
 
-    val context = LocalContext.current
-    val state = viewModel.state
-
-    if (state.success) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        Intent(context, MainActivity::class.java).also {
-            context.startActivity(it)
-        }
-    } else {
-        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-    }
+    val uiState by viewModel.uiState.collectAsState()
 
     Box(
         Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Login(modifier = Modifier.align(Alignment.Center), viewModel)
+        Login(modifier = Modifier.align(Alignment.Center), uiState, viewModel)
     }
 }
 
 @Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel) {
-
-    val state = viewModel.state
-
-    if (state.isLoading) {
+fun Login(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel) {
+    if (uiState.isLoading) {
         Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
     } else {
-        LoginView(modifier, viewModel)
-
+        LoginView(modifier, uiState, viewModel)
     }
-
-
-
 }
 
 @Composable
-fun LoginView(modifier: Modifier, viewModel: LoginViewModel) {
+fun LoginView(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel) {
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
     val loginEnable: Boolean by viewModel.loginEnable.observeAsState(false)
@@ -102,6 +87,17 @@ fun LoginView(modifier: Modifier, viewModel: LoginViewModel) {
                 viewModel.onDoLogin()
             }
         })
+    }
+
+    val context = LocalContext.current
+    val activity = (context as? MainActivity)
+
+    if (uiState.isLoginSuccess) {
+        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Intent(context, MainActivity::class.java).also {
+            context.startActivity(it)
+        }
+        activity?.finish()
     }
 }
 
@@ -130,7 +126,6 @@ fun ForgotPassword(modifier: Modifier) {
         color = Color.Blue,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold
-
     )
 }
 

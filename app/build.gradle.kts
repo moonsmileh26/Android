@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.material)
+    implementation(libs.viewmodel.compose)
 
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
