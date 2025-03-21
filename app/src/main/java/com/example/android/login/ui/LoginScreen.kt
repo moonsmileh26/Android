@@ -22,7 +22,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,28 +32,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.android.R
 import com.example.android.login.viewmodel.LoginViewModel
 import com.example.android.quotes.view.MainActivity
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
-
-    val uiState by viewModel.uiState.collectAsState()
-
     Box(
         Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Login(modifier = Modifier.align(Alignment.Center), uiState, viewModel)
+        Login(modifier = Modifier.align(Alignment.Center), viewModel)
     }
 }
 
 @Composable
-fun Login(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel) {
+fun Login(modifier: Modifier, viewModel: LoginViewModel) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     if (uiState.isLoading) {
         Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
@@ -66,23 +65,26 @@ fun Login(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel) {
 
 @Composable
 fun LoginView(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel) {
-    val email: String by viewModel.email.observeAsState("")
-    val password: String by viewModel.password.observeAsState("")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(false)
+    val loginViewState by viewModel.loginViewState.collectAsState()
+
 
     Column(modifier = modifier) {
         HeaderImage(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
-        EmailField(email, onValueChange = { viewModel.onLoginChanged(it, password) })
+        EmailField(
+            loginViewState.email,
+            onValueChange = { viewModel.onLoginChanged(it, loginViewState.password) })
         Spacer(modifier = Modifier.size(8.dp))
-        PasswordField(password, onValueChange = { viewModel.onLoginChanged(email, it) })
+        PasswordField(
+            loginViewState.password,
+            onValueChange = { viewModel.onLoginChanged(loginViewState.email, it) })
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(8.dp))
 
         val coroutineScope = rememberCoroutineScope()
 
-        LoginButton(loginEnable, {
+        LoginButton(loginViewState.loginEnable, {
             coroutineScope.launch {
                 viewModel.onDoLogin()
             }
@@ -98,6 +100,8 @@ fun LoginView(modifier: Modifier, uiState: LoginState, viewModel: LoginViewModel
             context.startActivity(it)
         }
         activity?.finish()
+    } else if (uiState.isLoginError) {
+        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
     }
 }
 
