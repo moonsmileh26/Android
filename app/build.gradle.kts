@@ -64,6 +64,11 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.material)
     implementation(libs.viewmodel.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.coil)
+    implementation(libs.dataStore)
+    implementation(libs.paging3)
+    implementation(libs.splashScreen)
 
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
